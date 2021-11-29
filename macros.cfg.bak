@@ -1,0 +1,27 @@
+[gcode_macro LIGHT_ON]
+gcode:
+    {% for index in range(25) %}      
+      
+      {% if index > 0 %}
+        SET_LED LED=caselight RED=1 GREEN=1 BLUE=1 SYNC=1 TRANSMIT=0 INDEX={26+index-1}
+        SET_LED LED=caselight RED=1 GREEN=1 BLUE=1 SYNC=1 TRANSMIT=0 INDEX={25-index+1}
+      {% endif %}
+
+      SET_LED LED=caselight RED=1 GREEN=0 BLUE=0 SYNC=1 TRANSMIT=0 INDEX={26+index}
+      SET_LED LED=caselight RED=1 GREEN=0 BLUE=0 SYNC=1 INDEX={25-index}
+      
+      G4 P20
+    {% endfor %}
+
+    SET_LED LED=caselight RED=1 GREEN=1 BLUE=1 SYNC=1 TRANSMIT=0 INDEX={1}
+    SET_LED LED=caselight RED=1 GREEN=1 BLUE=1 SYNC=1 INDEX={50}
+
+
+
+[gcode_macro LIGHT_OFF]
+gcode:
+    {% for index in range(25) %}      
+      SET_LED LED=caselight RED=0 GREEN=0 BLUE=0 SYNC=1 TRANSMIT=0 INDEX={index+1}
+      SET_LED LED=caselight RED=0 GREEN=0 BLUE=0 SYNC=1 INDEX={50-index}
+      G4 P20
+    {% endfor %}
